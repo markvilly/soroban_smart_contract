@@ -1,6 +1,7 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, vec, Env, String, Vec};
+use soroban_sdk::{contract, contractimpl, symbol_short, vec, Env, String, Symbol, Vec};
 
+#[no_std]
 #[contract]
 pub struct Contract;
 
@@ -13,6 +14,34 @@ pub struct Contract;
 //
 // Refer to the official documentation:
 // <https://developers.stellar.org/docs/build/smart-contracts/overview>.
+
+
+
+const LIBRARY_KEY: Symbol = symbol_short!("LIBRARY");
+
+pub struct Book{
+    pub title: Symbol,
+    pub author: Symbol,
+    pub year: u32
+}
+
+pub trait LibraryTrait {
+    fn initialize(env: Env);
+    fn add_book(env: Env, title: Symbol, author: Symbol, year: u32);
+    fn remove_book(env: Env, title: Symbol);
+    fn find_book(env: Env, title: Symbol)-> Option<Book>;
+    fn list_books(env: Env)-> Vec<Book>;
+
+}
+
+pub struct Library {
+    books: Vec<Book>
+}
+
+
+#[contract]
+pub struct LibraryContract;
+
 #[contractimpl]
 impl Contract {
     pub fn hello(env: Env, to: String) -> Vec<String> {

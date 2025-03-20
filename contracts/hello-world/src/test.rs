@@ -7,9 +7,3 @@ use soroban_sdk::{vec, Env, String, symbol_short};
 fn test() {
     
 }
-
-#[test]
-fn test_initialize() {
-
-}
-

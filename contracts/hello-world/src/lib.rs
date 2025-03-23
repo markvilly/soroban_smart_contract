@@ -50,19 +50,23 @@ impl LibraryTrait for LibraryContract{
         let library = Library {
             books: Vec::new(&env),
         };
-        
+
         // add the new book into the storage.
         env.storage().instance().set(&LIBRARY_KEY, &library);
     }
+
     fn add_book(env:Env, author: Symbol,title: Symbol, year:u32){
         todo!()
     }
+
     fn remove_book(env:Env, title:Symbol){
         todo!()
     }
+
     fn find_book(env:Env, title:Symbol)-> Option<Book> {
         todo!()
     }
+    
     fn list_books(env:Env)->Vec<Book>{
         todo!()
     }

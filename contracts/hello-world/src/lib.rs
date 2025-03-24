@@ -70,15 +70,33 @@ impl LibraryTrait for LibraryContract {
     }
 
     fn remove_book(env: Env, title: Symbol) {
-        todo!()
+        // todo!()
+        let mut library: Library = env.storage().instance().get(&LIBRARY_KEY).unwrap_or_else( || Library { books: Vec::new(&env)});
+
+        let index = library.books.iter().position( |book | book.title == title);
+
+        if let Some(i) = index {
+            library.books.remove(i as u32);
+            
+            env.storage().instance().set(&LIBRARY_KEY, &library);
+        }
     }
 
     fn find_book(env: Env, title: Symbol) -> Option<Book> {
-        todo!()
+        // todo!()
+        let library: Library = env.storage().instance().get(&LIBRARY_KEY).unwrap_or_else(|| Library { books: Vec::new(&env)});
+
+        let the_book = library.books.into_iter().find(|book|book.title == title);
+
+        return the_book 
+
     }
 
     fn list_books(env: Env) -> Vec<Book> {
-        todo!()
+        // todo!()
+        let library: Library = env.storage().instance().get(&LIBRARY_KEY).unwrap_or_else(|| Library { books:  Vec::new(&env) });
+
+        library.books
     }
     fn count_books(env: Env) -> u32 {
         todo!()

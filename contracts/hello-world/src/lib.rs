@@ -7,11 +7,8 @@
 
 // Storing data - Getting Stored data - Data Type - Business Logic
 
-
 #![no_std]
 use soroban_sdk::{contract, contractimpl, contracttype, symbol_short, Env, Symbol, Vec};
-
-
 
 #[derive(Debug, Clone)]
 #[contracttype]
@@ -24,28 +21,26 @@ pub struct Book {
 #[derive(Clone)]
 #[contracttype]
 pub struct Library {
-    books: Vec<Book>
+    books: Vec<Book>,
 }
 
 const LIBRARY_KEY: Symbol = symbol_short!("LIBRARY");
 
 pub trait LibraryTrait {
     fn initialize(env: Env);
-    fn add_book(env:Env, title:Symbol, author: Symbol, year: u32);
-    fn remove_book(env:Env, title: Symbol);
+    fn add_book(env: Env, title: Symbol, author: Symbol, year: u32);
+    fn remove_book(env: Env, title: Symbol);
     fn find_book(env: Env, title: Symbol) -> Option<Book>;
-    fn list_books(env:Env)-> Vec<Book>;
-    fn count_books(env: Env)-> u32;
+    fn list_books(env: Env) -> Vec<Book>;
+    fn count_books(env: Env) -> u32;
 }
 
 #[contract]
 pub struct LibraryContract;
 
-
 #[contractimpl]
-impl LibraryTrait for LibraryContract{
-
-    fn initialize(env:Env) {
+impl LibraryTrait for LibraryContract {
+    fn initialize(env: Env) {
         // todo!()
         let library = Library {
             books: Vec::new(&env),
@@ -55,27 +50,39 @@ impl LibraryTrait for LibraryContract{
         env.storage().instance().set(&LIBRARY_KEY, &library);
     }
 
-    fn add_book(env:Env, author: Symbol,title: Symbol, year:u32){
+    fn add_book(env: Env, author: Symbol, title: Symbol, year: u32) {
+        // todo!()
+        let mut library: Library =
+            env.storage()
+                .instance()
+                .get(&LIBRARY_KEY)
+                .unwrap_or_else(|| Library {
+                    books: Vec::new(&env),
+                });
+
+        library.books.push_back(Book {
+            title,
+            author,
+            year,
+        });
+
+        env.storage().instance().set(&LIBRARY_KEY, &library);
+    }
+
+    fn remove_book(env: Env, title: Symbol) {
         todo!()
     }
 
-    fn remove_book(env:Env, title:Symbol){
+    fn find_book(env: Env, title: Symbol) -> Option<Book> {
         todo!()
     }
 
-    fn find_book(env:Env, title:Symbol)-> Option<Book> {
+    fn list_books(env: Env) -> Vec<Book> {
         todo!()
     }
-    
-    fn list_books(env:Env)->Vec<Book>{
+    fn count_books(env: Env) -> u32 {
         todo!()
     }
-    fn count_books(env:Env)-> u32 {
-        todo!()
-    }
-
 }
-
-
 
 mod test;
